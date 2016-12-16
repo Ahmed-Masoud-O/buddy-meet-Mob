@@ -77,22 +77,87 @@ angular.module('starter.controllers', [])
 
     })
   }
+
+   $scope.doRefresh = function() {
+    var comment = {}
+    comment.body = ""
+    var userId = $rootScope.Lid
+    $http.get("http://localhost:8888/buddy-meet/public/loadTimeLine?id="+userId)
+    .success(function (response) {
+      //console.log(response)
+      var posts = response.posts
+      var comments = response.comments
+      posts.forEach(function(post,index){
+        post.comments = []
+        comments.forEach(function(comment,index){
+          if(comment){
+            if(post.id == comment[0].post_id){
+              post.comments.push(comment)
+            }
+          }
+        })
+      })
+      $scope.posts = posts
+      $scope.comment = comment
+      console.log(posts);
+    })
+    $scope.$broadcast('scroll.refreshComplete');
+   }
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+.controller('RequestsCtrl', function($scope, $http,$rootScope) {
+  var userId = $rootScope.Lid
+  $http.get("http://localhost:8888/buddy-meet/public/getFriendRequests?ID="+userId)
+  .success(function (response) {
+    $scope.requests = response
+    $scope.requests.forEach(function(request,index){
+      $http.get("http://localhost:8888/buddy-meet/public/getGender?id="+request.user_1)
+        .success(function (response) {
+          request.gender = response
+          console.log(response)
+        })
+    })
+  })
 
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
+  $scope.doRefresh = function() {
+    var userId = $rootScope.Lid
+    $http.get("http://localhost:8888/buddy-meet/public/getFriendRequests?ID="+userId)
+    .success(function (response) {
+      $scope.requests = response
+      $scope.requests.forEach(function(request,index){
+        $http.get("http://localhost:8888/buddy-meet/public/getGender?id="+request.user_1)
+          .success(function (response) {
+            request.gender = response
+            console.log(response)
+          })
+      })
+      $scope.$broadcast('scroll.refreshComplete');
+    })
+  }
+
+  $scope.confirmRequest = function(foreignId){
+    var user_1 = $rootScope.Lid
+    var user_2 = foreignId
+    $http.get("http://localhost:8888/buddy-meet/public/mobileConfirmRequest?user_1="+user_1+"&user_2="+user_2)
+        .success(function (response) {
+          $scope.doRefresh()
+        })
+  }
+  $scope.deleteRequest = function(foreignId){
+    var user_1 = $rootScope.Lid
+    var user_2 = foreignId
+     $http.get("http://localhost:8888/buddy-meet/public/mobileDeleteFriend?user_1="+user_1+"&user_2="+user_2)
+        .success(function (response) {
+          $scope.doRefresh()
+        })
+  }
+
+
+  
+
 })
+
+
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
   $scope.chat = Chats.get($stateParams.chatId);

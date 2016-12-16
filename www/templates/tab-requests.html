@@ -1,0 +1,19 @@
+<ion-view cache-view="false" view-title="Requests">
+  <ion-content>
+    <ion-refresher
+    pulling-text="Pull to refresh..."
+    on-refresh="doRefresh()"
+    spinner="ripple">
+    </ion-refresher>
+    <ion-list>
+      <ion-item ng-repeat="request in requests" class="item-avatar-left">
+        <img ng-src="http://localhost:8888/buddy-meet/public/images/{{request.user_1}}.jpg" err-src='http://localhost:8888/buddy-meet/public/images/{{request.gender}}.jpg';/>
+          <h3>{{request.user_name}}</h3><br>
+          <div class="button-bar">
+            <button ng-click="confirmRequest(request.user_1)" class="button button-small button-balanced">Accept</button>
+            <button ng-click="deleteRequest(request.user_1)" class="button button-small button-assertive">Decline</button>
+          </div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

@@ -1,5 +1,10 @@
 <ion-view view-title="Dashboard">
   <ion-content class="padding">
+    <ion-refresher
+    pulling-text="Pull to refresh..."
+    on-refresh="doRefresh()"
+    spinner="ripple">
+    </ion-refresher>
     <ion-list ng-repeat="post in posts" class="list-card">
             <ion-item class="item-avatar-left">
                 <img ng-src="http://localhost:8888/buddy-meet/public/images/{{post.user_id}}.jpg" err-src='http://localhost:8888/buddy-meet/public/images/{{post.gender}}.jpg';/>
