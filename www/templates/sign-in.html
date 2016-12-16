@@ -1,0 +1,21 @@
+<ion-view hide-nav-bar="true"> 
+    <link href="css/login.css" rel="stylesheet">
+        <ion-content style="background-color: darkblue">
+            <br><br><br><br><br><br><center>
+            <img id="logo" src="img/logo.png">
+            </center>
+            <div class="login">
+                <div class="login-triangle"></div>
+    
+                <h2 class="login-header">Log in</h2>
+
+                <form class="login-container">
+                    <p><input type="email" ng-model="user.email" placeholder="Email"></p>
+                    <p><input type="password" ng-model="user.password" placeholder="Password"></p>
+                    <button class="button button-block button-positive" ng-click="signIn(user)">
+                    Sign-In
+                    </button>
+                </form>
+                </div>
+        </ion-content>
+      </ion-view>
