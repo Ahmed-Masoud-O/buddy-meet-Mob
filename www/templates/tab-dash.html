@@ -12,6 +12,7 @@
                 <h5>{{post.time}}</h5>
                 <br>
                 <h2 style="white-space: normal;">
+                  <img ng-if="post.has_pic" style="width: 100px;height: 100px;" src="http://localhost:8888/buddy-meet/public/images/post_{{post.id}}.jpg"><br>
                   {{post.post_body}}
                 </h2>
                 <hr>
