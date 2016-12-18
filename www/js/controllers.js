@@ -157,14 +157,71 @@ angular.module('starter.controllers', [])
 
 })
 
+.controller('AccountCtrl', function($scope,$rootScope,$http) {
+  var comment = {}
+  comment.body = ""
+  var userId = $rootScope.Lid
+  $http.get("http://localhost:8888/buddy-meet/public/mobileLoadProfile?id="+userId)
+  .success(function (response) {
+    //console.log(response)
+    var posts = response.posts
+    var comments = response.comments
+    posts.forEach(function(post,index){
+      post.comments = []
+      comments.forEach(function(comment,index){
+        if(comment){
+          if(post.id == comment[0].post_id){
+            post.comments.push(comment)
+          }
+        }
+      })
+    })
+    $scope.posts = posts
+    $scope.comment = comment
+    console.log(posts);
+  })
+  
 
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
+
+  $scope.addComment=function(postId){
+    var commentBody = document.getElementById("postProfile_"+postId).value;
+    console.log(commentBody);
+    var userId = $rootScope.Lid
+    var Lgender = $rootScope.Lgender
+    var userName = $rootScope.LuserName
+    $scope.image = "http://localhost:8888/buddy-meet/public/images/Male.jpg"
+    document.getElementById("profileCommentsOf"+postId).innerHTML = "<ion-item class=\"item-avatar-left item\"><img ng-src=\"{{image}}\"><b class=\"ng-binding\">"+userName+"</b><h2 style=\"white-space: normal;\" class=\"ng-binding\">"+commentBody+"</h2></ion-item>" + document.getElementById("profileCommentsOf"+postId).innerHTML
+      $http.get("http://localhost:8888/buddy-meet/public/mobileAddComment?id="+userId+"&postId="+postId+"&commentBody="+commentBody)
+      .success(function (response) {
+
+    })
+  }
+
+   $scope.doRefresh = function() {
+    var comment = {}
+    comment.body = ""
+    var userId = $rootScope.Lid
+    $http.get("http://localhost:8888/buddy-meet/public/loadTimeLine?id="+userId)
+    .success(function (response) {
+      //console.log(response)
+      var posts = response.posts
+      var comments = response.comments
+      posts.forEach(function(post,index){
+        post.comments = []
+        comments.forEach(function(comment,index){
+          if(comment){
+            if(post.id == comment[0].post_id){
+              post.comments.push(comment)
+            }
+          }
+        })
+      })
+      $scope.posts = posts
+      $scope.comment = comment
+      console.log(posts);
+    })
+    $scope.$broadcast('scroll.refreshComplete');
+   }
 })
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
-});

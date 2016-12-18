@@ -1,9 +1,38 @@
 <ion-view view-title="Account">
-  <ion-content>
-    <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enable Friends
-    </ion-toggle>
-    </ion-list>
+  <ion-content class="padding">
+    <ion-refresher
+    pulling-text="Pull to refresh..."
+    on-refresh="doRefresh()"
+    spinner="ripple">
+    </ion-refresher>
+    <ion-list ng-repeat="post in posts" class="list-card">
+            <ion-item class="item-avatar-left">
+                <img ng-src="http://localhost:8888/buddy-meet/public/images/{{post.user_id}}.jpg" err-src='http://localhost:8888/buddy-meet/public/images/{{post.gender}}.jpg';/>
+                <b>{{post.user_name}}</b>
+                <h5>{{post.time}}</h5>
+                <br>
+                <h2 style="white-space: normal;">
+                  <img ng-if="post.has_pic" style="width: 100px;height: 100px;" src="http://localhost:8888/buddy-meet/public/images/post_{{post.id}}.jpg"><br>
+                  {{post.post_body}}
+                </h2>
+                <hr>
+                <label class="item item-input">
+                  <input style="height: 20px" id="postProfile_{{post.id}}" type="text" placeholder="comment">
+                  
+                </label>
+                <span style="height: 30px" class="ion-paper-airplane" ng-click="addComment({{post.id}})"></span>
+                </ion-item>
+                  <ion-item class="item-divider">comments</ion-item>
+                  <div id="profileCommentsOf{{post.id}}">
+                    <ion-item ng-repeat="comment in post.comments[0]" class="item-avatar-left">
+                      <img ng-src="http://localhost:8888/buddy-meet/public/images/{{comment.user_id}}.jpg" err-src='http://localhost:8888/buddy-meet/public/images/{{comment.gender}}.jpg';/>
+                      <b>{{comment.user_name}}</b>
+                      <h2 style="white-space: normal;">
+                        {{comment.comment_body}}
+                      </h2>
+                    </ion-item>
+                </div>
+                  <br><br>
+        </ion-list>
   </ion-content>
 </ion-view>
