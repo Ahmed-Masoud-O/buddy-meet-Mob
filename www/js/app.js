@@ -22,6 +22,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   });
 })
 
+
 .config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
@@ -29,6 +30,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
+  .state('tab.foreignProfile',{
+    url:'/foreignProfile/:id,:name,:gender',
+     views: {
+      'tab-dash': {
+        templateUrl : 'templates/foreignProfile.html',
+        controller : 'ForeignProfileCtrl'
+      }  
+    }
+      
+  })
 
   .state('signin', {
       url: '/sign-in',

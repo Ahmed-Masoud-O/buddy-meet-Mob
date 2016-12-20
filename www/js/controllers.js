@@ -41,7 +41,10 @@ angular.module('starter.controllers', [])
   
 })
 
-.controller('DashCtrl', function($scope,$rootScope,$http) {
+.controller('DashCtrl', function($scope,$rootScope,$http,$ionicLoading) {
+  $ionicLoading.show({
+        template : "<ion-spinner icon='spiral'></ionic-spinner>"
+    })
   var comment = {}
   comment.body = ""
   var userId = $rootScope.Lid
@@ -63,6 +66,7 @@ angular.module('starter.controllers', [])
     $scope.posts = posts
     $scope.comment = comment
     console.log(posts);
+    $ionicLoading.hide()
   })
 
   $scope.addComment=function(postId){
@@ -180,10 +184,6 @@ angular.module('starter.controllers', [])
     $scope.comment = comment
     console.log(posts);
   })
-  
-
-
-
   $scope.addComment=function(postId){
     var commentBody = document.getElementById("postProfile_"+postId).value;
     console.log(commentBody);
@@ -202,7 +202,7 @@ angular.module('starter.controllers', [])
     var comment = {}
     comment.body = ""
     var userId = $rootScope.Lid
-    $http.get("http://localhost:8888/buddy-meet/public/loadTimeLine?id="+userId)
+    $http.get("http://localhost:8888/buddy-meet/public/mobileLoadProfile?id="+userId)
     .success(function (response) {
       //console.log(response)
       var posts = response.posts
@@ -224,4 +224,83 @@ angular.module('starter.controllers', [])
     $scope.$broadcast('scroll.refreshComplete');
    }
 })
+
+.controller('ForeignProfileCtrl', function($scope,$rootScope,$http,$stateParams,$ionicLoading) {
+  $ionicLoading.show({
+        template : "<ion-spinner icon='spiral'></ionic-spinner>"
+    })
+  var foreignId = $stateParams.id
+  $scope.Fname = $stateParams.name
+  $scope.gender = $stateParams.gender
+  $scope.Fid = foreignId
+  console.log(foreignId)
+    var comment = {}
+  comment.body = ""
+  var userId = $rootScope.Lid
+  $http.get("http://localhost:8888/buddy-meet/public/mobileLoadProfile?id="+foreignId)
+  .success(function (response) {
+    //console.log(response)
+    var posts = response.posts
+    var comments = response.comments
+    console.log($scope.Fname)
+    posts.forEach(function(post,index){
+      post.comments = []
+      comments.forEach(function(comment,index){
+        if(comment){
+          if(post.id == comment[0].post_id){
+            post.comments.push(comment)
+          }
+        }
+      })
+    })
+    $scope.posts = posts
+    $scope.comment = comment
+    console.log(posts);
+  })
+
+  $scope.addComment=function(postId){
+    var commentBody = document.getElementById("postProfile_"+postId).value;
+    console.log(commentBody);
+    var userId = $rootScope.Lid
+    var Lgender = $rootScope.Lgender
+    var userName = $rootScope.LuserName
+    $scope.image = "http://localhost:8888/buddy-meet/public/images/Male.jpg"
+    document.getElementById("profileCommentsOf"+postId).innerHTML = "<ion-item class=\"item-avatar-left item\"><img ng-src=\"{{image}}\"><b class=\"ng-binding\">"+userName+"</b><h2 style=\"white-space: normal;\" class=\"ng-binding\">"+commentBody+"</h2></ion-item>" + document.getElementById("profileCommentsOf"+postId).innerHTML
+      $http.get("http://localhost:8888/buddy-meet/public/mobileAddComment?id="+userId+"&postId="+postId+"&commentBody="+commentBody)
+      .success(function (response) {
+
+    })
+  }
+
+   $scope.doRefreshForeign = function() {
+     var foreignId = $stateParams.id
+    var comment = {}
+    comment.body = ""
+    var userId = $rootScope.Lid
+    console.log(foreignId)
+    $http.get("http://localhost:8888/buddy-meet/public/mobileLoadProfile?id="+foreignId)
+    .success(function (response) {
+      //console.log(response)
+      var posts = response.posts
+      var comments = response.comments
+      posts.forEach(function(post,index){
+        post.comments = []
+        comments.forEach(function(comment,index){
+          if(comment){
+            if(post.id == comment[0].post_id){
+              post.comments.push(comment)
+            }
+          }
+        })
+      })
+      $scope.posts = posts
+      $scope.comment = comment
+      console.log(posts);
+    })
+    $scope.$broadcast('scroll.refreshComplete');
+   }
+   $ionicLoading.hide()
+})
+
+
 
