@@ -7,6 +7,8 @@
     </ion-refresher>
     <center>
     <img style="width: 250px;height: 250px;" ng-src="http://localhost:8888/buddy-meet/public/images/{{Fid}}.jpg" err-src='http://localhost:8888/buddy-meet/public/images/{{gender}}.jpg';/>
+    <br>
+    <button class="button button-block button-positive" ng-click="handleRequestButton()">{{status}}</button>
     </center>
     <ion-list ng-repeat="post in posts" class="list-card">
             <ion-item class="item-avatar-left">

@@ -165,6 +165,8 @@ angular.module('starter.controllers', [])
   var comment = {}
   comment.body = ""
   var userId = $rootScope.Lid
+  $scope.Lid = userId
+  $scope.gender = $rootScope.Lgender
   $http.get("http://localhost:8888/buddy-meet/public/mobileLoadProfile?id="+userId)
   .success(function (response) {
     //console.log(response)
@@ -225,23 +227,28 @@ angular.module('starter.controllers', [])
    }
 })
 
-.controller('ForeignProfileCtrl', function($scope,$rootScope,$http,$stateParams,$ionicLoading) {
+.controller('ForeignProfileCtrl', function($scope,$rootScope,$http,$stateParams,$ionicLoading,$ionicPopup) {
   $ionicLoading.show({
         template : "<ion-spinner icon='spiral'></ionic-spinner>"
     })
-  var foreignId = $stateParams.id
+  foreignId = $stateParams.id
   $scope.Fname = $stateParams.name
   $scope.gender = $stateParams.gender
   $scope.Fid = foreignId
   console.log(foreignId)
     var comment = {}
   comment.body = ""
-  var userId = $rootScope.Lid
-  $http.get("http://localhost:8888/buddy-meet/public/mobileLoadProfile?id="+foreignId)
+  userId = $rootScope.Lid
+  $scope.handleRequestButton = function(){
+
+  }
+  $http.get("http://localhost:8888/buddy-meet/public/mobileForeignProfile?loggedInId="+userId+"&foreignId="+foreignId)
   .success(function (response) {
     //console.log(response)
     var posts = response.posts
     var comments = response.comments
+    var status = response.status
+    $scope.status = status
     console.log($scope.Fname)
     posts.forEach(function(post,index){
       post.comments = []
@@ -258,6 +265,82 @@ angular.module('starter.controllers', [])
     console.log(posts);
   })
 
+  $scope.handleRequestButton = function(){
+    var status = $scope.status
+    if(status == "Add Friend"){
+      $http.get("http://localhost:8888/buddy-meet/public/mobileAddFriend?loggedId="+userId+"&foreignId="+foreignId)
+      .success(function (response) {
+        $scope.status = "Pending"
+      })
+    }else if(status == "Friends"){
+      var confirmPopup = $ionicPopup.confirm({
+          title: 'Friend Delete',
+          template: 'Are you sure you want to delete this friend ?',
+          cancelText:'Cancel',
+          okText :'Delete',
+          okType : 'button-assertive'
+          });
+          confirmPopup.then(function(res) {
+          if(res) {
+            $http.get("http://localhost:8888/buddy-meet/public/mobileDeleteFriend?user_1="+userId+"&user_2="+foreignId)
+            .success(function (response) {
+              $scope.status = "Add Friend"
+              $scope.doRefreshForeign()
+            })
+          }
+          });
+    }
+    else if(status == "Pending"){
+      $http.get("http://localhost:8888/buddy-meet/public/getPendingResponseStatus?loggedId="+userId+"&foreignId="+foreignId)
+      .success(function (response) {
+        if(response.user_1 == userId){
+          console.log("delete")
+          var confirmPopup = $ionicPopup.confirm({
+          title: 'Pending Cancelation',
+          template: 'Are you sure you want to delete this friend request ?',
+          cancelText:'Cancel',
+          okText :'Delete',
+          okType : 'button-assertive'
+          });
+          confirmPopup.then(function(res) {
+          if(res) {
+            console.log('You are sure');
+            $http.get("http://localhost:8888/buddy-meet/public/mobileDeleteFriend?user_1="+userId+"&user_2="+foreignId)
+            .success(function (response) {
+              $scope.status = "Add Friend"
+            })
+          } else {
+            console.log('You are not sure');
+          }
+        });
+        }else if(response.user_2 == userId){
+          var confirmPopup = $ionicPopup.confirm({
+          title: 'Pending Request',
+          template: 'Do you want to Accept this friend request ?',
+          cancelText:'Decline',
+          okText :'Accept',
+          okType : 'button-balanced',
+          cancelType : 'button-assertive'
+          });
+          confirmPopup.then(function(res) {
+          if(res) {
+            $http.get("http://localhost:8888/buddy-meet/public/mobileConfirmRequest?user_1="+userId+"&user_2="+foreignId)
+            .success(function (response) {
+              $scope.status = "Friends"
+              $scope.doRefreshForeign()
+            })
+          } else {
+            $http.get("http://localhost:8888/buddy-meet/public/mobileDeleteFriend?user_1="+userId+"&user_2="+foreignId)
+            .success(function (response) {
+              $scope.status = "Add Friend"
+            })
+          }
+        });
+         
+        }
+      })
+    }
+  }
   $scope.addComment=function(postId){
     var commentBody = document.getElementById("postProfile_"+postId).value;
     console.log(commentBody);
@@ -278,7 +361,7 @@ angular.module('starter.controllers', [])
     comment.body = ""
     var userId = $rootScope.Lid
     console.log(foreignId)
-    $http.get("http://localhost:8888/buddy-meet/public/mobileLoadProfile?id="+foreignId)
+    $http.get("http://localhost:8888/buddy-meet/public/mobileForeignProfile?loggedInId="+userId+"&foreignId="+foreignId)
     .success(function (response) {
       //console.log(response)
       var posts = response.posts
