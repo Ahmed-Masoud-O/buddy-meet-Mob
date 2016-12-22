@@ -366,6 +366,8 @@ angular.module('starter.controllers', [])
       //console.log(response)
       var posts = response.posts
       var comments = response.comments
+      var status = response.status
+      $scope.status = status
       posts.forEach(function(post,index){
         post.comments = []
         comments.forEach(function(comment,index){
