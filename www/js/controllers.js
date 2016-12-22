@@ -42,12 +42,26 @@ angular.module('starter.controllers', [])
 })
 
 .controller('DashCtrl', function($scope,$rootScope,$http,$ionicLoading) {
+  
   $ionicLoading.show({
         template : "<ion-spinner icon='spiral'></ionic-spinner>"
     })
+      var userId = $rootScope.Lid
+    $http.get("http://localhost:8888/buddy-meet/public/getFriendRequests?ID="+userId)
+  .success(function (response) {
+    console.log(response)
+    // if(response[0]){
+    //   var count = response[0].length
+    // }else{
+    //   var count = 0
+    // }
+    $rootScope.requestsCount = {
+      
+      badgeCount : response.length
+    };
+  })
   var comment = {}
   comment.body = ""
-  var userId = $rootScope.Lid
   $http.get("http://localhost:8888/buddy-meet/public/loadTimeLine?id="+userId)
   .success(function (response) {
     //console.log(response)
@@ -127,6 +141,10 @@ angular.module('starter.controllers', [])
     var userId = $rootScope.Lid
     $http.get("http://localhost:8888/buddy-meet/public/getFriendRequests?ID="+userId)
     .success(function (response) {
+      $rootScope.requestsCount = {
+      
+      badgeCount : response.length
+    };
       $scope.requests = response
       $scope.requests.forEach(function(request,index){
         $http.get("http://localhost:8888/buddy-meet/public/getGender?id="+request.user_1)

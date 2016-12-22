@@ -15,12 +15,11 @@
                   <img ng-if="post.has_pic" style="width: 100px;height: 100px;" src="http://localhost:8888/buddy-meet/public/images/post_{{post.id}}.jpg"><br>
                   {{post.post_body}}
                 </h2>
-                <hr>
-                <label class="item item-input">
-                  <input style="height: 20px" id="post_{{post.id}}" type="text" placeholder="comment">
-                  
-                </label>
-                <span style="height: 30px" class="ion-paper-airplane" ng-click="addComment({{post.id}})"></span>
+                <hr><br>
+                  <input style="height: 20px;width: 100%" id="post_{{post.id}}" type="text" placeholder="comment">
+                  <br>
+                  <button style="height: 30px;width: 100%;" class="button button-block button-positive ion-paper-airplane" ng-click="addComment({{post.id}})"></button>
+                
                 </ion-item>
                   <ion-item class="item-divider">comments</ion-item>
                   <div id="commentsOf{{post.id}}">
