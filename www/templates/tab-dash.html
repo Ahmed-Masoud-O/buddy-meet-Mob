@@ -7,12 +7,12 @@
     </ion-refresher>
     <ion-list ng-repeat="post in posts" class="list-card">
             <ion-item class="item-avatar-left">
-                <img ng-src="http://localhost:8888/buddy-meet/public/images/{{post.user_id}}.jpg" err-src='http://localhost:8888/buddy-meet/public/images/{{post.gender}}.jpg';/>
+                <img ng-src="http://ahmedehabmasoud-001-site1.itempurl.com/public/images/{{post.user_id}}.jpg" err-src='http://ahmedehabmasoud-001-site1.itempurl.com/public/images/{{post.gender}}.jpg';/>
                 <b ui-sref="tab.foreignProfile({id : post.user_id,name : post.user_name,gender : post.gender})">{{post.user_name}}</b>
                 <h5>{{post.time}}</h5>
                 <br>
                 <h2 style="white-space: normal;">
-                  <img ng-if="post.has_pic" style="width: 100px;height: 100px;" src="http://localhost:8888/buddy-meet/public/images/post_{{post.id}}.jpg"><br>
+                  <img ng-if="post.has_pic" style="width: 100px;height: 100px;" src="http://ahmedehabmasoud-001-site1.itempurl.com/public/images/post_{{post.id}}.jpg"><br>
                   {{post.post_body}}
                 </h2>
                 <hr><br>
@@ -24,7 +24,7 @@
                   <ion-item class="item-divider">comments</ion-item>
                   <div id="commentsOf{{post.id}}">
                     <ion-item ng-repeat="comment in post.comments[0]" class="item-avatar-left">
-                      <img ng-src="http://localhost:8888/buddy-meet/public/images/{{comment.user_id}}.jpg" err-src='http://localhost:8888/buddy-meet/public/images/{{comment.gender}}.jpg';/>
+                      <img ng-src="http://ahmedehabmasoud-001-site1.itempurl.com/public/images/{{comment.user_id}}.jpg" err-src='http://ahmedehabmasoud-001-site1.itempurl.com/public/images/{{comment.gender}}.jpg';/>
                       <b>{{comment.user_name}}</b>
                       <h2 style="white-space: normal;">
                         {{comment.comment_body}}

@@ -7,7 +7,7 @@ angular.module('starter.controllers', [])
     $ionicLoading.show({
         template : "<ion-spinner icon='spiral'></ionic-spinner>"
     })
-    $http.get("http://localhost:8888/buddy-meet/public/login?email="+user.email+"&password="+user.password)
+    $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/login?email="+user.email+"&password="+user.password)
     .success(function (response) {
       console.log(response[0])
       if(response[0]){
@@ -47,7 +47,7 @@ angular.module('starter.controllers', [])
         template : "<ion-spinner icon='spiral'></ionic-spinner>"
     })
       var userId = $rootScope.Lid
-    $http.get("http://localhost:8888/buddy-meet/public/getFriendRequests?ID="+userId)
+    $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/getFriendRequests?ID="+userId)
   .success(function (response) {
     console.log(response)
     // if(response[0]){
@@ -62,7 +62,7 @@ angular.module('starter.controllers', [])
   })
   var comment = {}
   comment.body = ""
-  $http.get("http://localhost:8888/buddy-meet/public/loadTimeLine?id="+userId)
+  $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/loadTimeLine?id="+userId)
   .success(function (response) {
     //console.log(response)
     var posts = response.posts
@@ -88,9 +88,9 @@ angular.module('starter.controllers', [])
     var userId = $rootScope.Lid
     var Lgender = $rootScope.Lgender
     var userName = $rootScope.LuserName
-    $scope.image = "http://localhost:8888/buddy-meet/public/images/Male.jpg"
+    $scope.image = "http://ahmedehabmasoud-001-site1.itempurl.com/public/images/Male.jpg"
     document.getElementById("commentsOf"+postId).innerHTML = "<ion-item class=\"item-avatar-left item\"><img ng-src=\"{{image}}\"><b class=\"ng-binding\">"+userName+"</b><h2 style=\"white-space: normal;\" class=\"ng-binding\">"+commentBody+"</h2></ion-item>" + document.getElementById("commentsOf"+postId).innerHTML
-      $http.get("http://localhost:8888/buddy-meet/public/mobileAddComment?id="+userId+"&postId="+postId+"&commentBody="+commentBody)
+      $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/mobileAddComment?id="+userId+"&postId="+postId+"&commentBody="+commentBody)
       .success(function (response) {
 
     })
@@ -100,7 +100,7 @@ angular.module('starter.controllers', [])
     var comment = {}
     comment.body = ""
     var userId = $rootScope.Lid
-    $http.get("http://localhost:8888/buddy-meet/public/loadTimeLine?id="+userId)
+    $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/loadTimeLine?id="+userId)
     .success(function (response) {
       //console.log(response)
       var posts = response.posts
@@ -125,11 +125,11 @@ angular.module('starter.controllers', [])
 
 .controller('RequestsCtrl', function($scope, $http,$rootScope) {
   var userId = $rootScope.Lid
-  $http.get("http://localhost:8888/buddy-meet/public/getFriendRequests?ID="+userId)
+  $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/getFriendRequests?ID="+userId)
   .success(function (response) {
     $scope.requests = response
     $scope.requests.forEach(function(request,index){
-      $http.get("http://localhost:8888/buddy-meet/public/getGender?id="+request.user_1)
+      $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/getGender?id="+request.user_1)
         .success(function (response) {
           request.gender = response
           console.log(response)
@@ -139,7 +139,7 @@ angular.module('starter.controllers', [])
 
   $scope.doRefresh = function() {
     var userId = $rootScope.Lid
-    $http.get("http://localhost:8888/buddy-meet/public/getFriendRequests?ID="+userId)
+    $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/getFriendRequests?ID="+userId)
     .success(function (response) {
       $rootScope.requestsCount = {
       
@@ -147,7 +147,7 @@ angular.module('starter.controllers', [])
     };
       $scope.requests = response
       $scope.requests.forEach(function(request,index){
-        $http.get("http://localhost:8888/buddy-meet/public/getGender?id="+request.user_1)
+        $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/getGender?id="+request.user_1)
           .success(function (response) {
             request.gender = response
             console.log(response)
@@ -160,7 +160,7 @@ angular.module('starter.controllers', [])
   $scope.confirmRequest = function(foreignId){
     var user_1 = $rootScope.Lid
     var user_2 = foreignId
-    $http.get("http://localhost:8888/buddy-meet/public/mobileConfirmRequest?user_1="+user_1+"&user_2="+user_2)
+    $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/mobileConfirmRequest?user_1="+user_1+"&user_2="+user_2)
         .success(function (response) {
           $scope.doRefresh()
         })
@@ -168,7 +168,7 @@ angular.module('starter.controllers', [])
   $scope.deleteRequest = function(foreignId){
     var user_1 = $rootScope.Lid
     var user_2 = foreignId
-     $http.get("http://localhost:8888/buddy-meet/public/mobileDeleteFriend?user_1="+user_1+"&user_2="+user_2)
+     $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/mobileDeleteFriend?user_1="+user_1+"&user_2="+user_2)
         .success(function (response) {
           $scope.doRefresh()
         })
@@ -185,7 +185,7 @@ angular.module('starter.controllers', [])
   var userId = $rootScope.Lid
   $scope.Lid = userId
   $scope.gender = $rootScope.Lgender
-  $http.get("http://localhost:8888/buddy-meet/public/mobileLoadProfile?id="+userId)
+  $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/mobileLoadProfile?id="+userId)
   .success(function (response) {
     //console.log(response)
     var posts = response.posts
@@ -210,9 +210,9 @@ angular.module('starter.controllers', [])
     var userId = $rootScope.Lid
     var Lgender = $rootScope.Lgender
     var userName = $rootScope.LuserName
-    $scope.image = "http://localhost:8888/buddy-meet/public/images/Male.jpg"
+    $scope.image = "http://ahmedehabmasoud-001-site1.itempurl.com/public/images/Male.jpg"
     document.getElementById("profileCommentsOf"+postId).innerHTML = "<ion-item class=\"item-avatar-left item\"><img ng-src=\"{{image}}\"><b class=\"ng-binding\">"+userName+"</b><h2 style=\"white-space: normal;\" class=\"ng-binding\">"+commentBody+"</h2></ion-item>" + document.getElementById("profileCommentsOf"+postId).innerHTML
-      $http.get("http://localhost:8888/buddy-meet/public/mobileAddComment?id="+userId+"&postId="+postId+"&commentBody="+commentBody)
+      $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/mobileAddComment?id="+userId+"&postId="+postId+"&commentBody="+commentBody)
       .success(function (response) {
 
     })
@@ -222,7 +222,7 @@ angular.module('starter.controllers', [])
     var comment = {}
     comment.body = ""
     var userId = $rootScope.Lid
-    $http.get("http://localhost:8888/buddy-meet/public/mobileLoadProfile?id="+userId)
+    $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/mobileLoadProfile?id="+userId)
     .success(function (response) {
       //console.log(response)
       var posts = response.posts
@@ -260,7 +260,7 @@ angular.module('starter.controllers', [])
   $scope.handleRequestButton = function(){
 
   }
-  $http.get("http://localhost:8888/buddy-meet/public/mobileForeignProfile?loggedInId="+userId+"&foreignId="+foreignId)
+  $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/mobileForeignProfile?loggedInId="+userId+"&foreignId="+foreignId)
   .success(function (response) {
     //console.log(response)
     var posts = response.posts
@@ -286,7 +286,7 @@ angular.module('starter.controllers', [])
   $scope.handleRequestButton = function(){
     var status = $scope.status
     if(status == "Add Friend"){
-      $http.get("http://localhost:8888/buddy-meet/public/mobileAddFriend?loggedId="+userId+"&foreignId="+foreignId)
+      $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/mobileAddFriend?loggedId="+userId+"&foreignId="+foreignId)
       .success(function (response) {
         $scope.status = "Pending"
       })
@@ -300,7 +300,7 @@ angular.module('starter.controllers', [])
           });
           confirmPopup.then(function(res) {
           if(res) {
-            $http.get("http://localhost:8888/buddy-meet/public/mobileDeleteFriend?user_1="+userId+"&user_2="+foreignId)
+            $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/mobileDeleteFriend?user_1="+userId+"&user_2="+foreignId)
             .success(function (response) {
               $scope.status = "Add Friend"
               $scope.doRefreshForeign()
@@ -309,7 +309,7 @@ angular.module('starter.controllers', [])
           });
     }
     else if(status == "Pending"){
-      $http.get("http://localhost:8888/buddy-meet/public/getPendingResponseStatus?loggedId="+userId+"&foreignId="+foreignId)
+      $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/getPendingResponseStatus?loggedId="+userId+"&foreignId="+foreignId)
       .success(function (response) {
         if(response.user_1 == userId){
           console.log("delete")
@@ -323,7 +323,7 @@ angular.module('starter.controllers', [])
           confirmPopup.then(function(res) {
           if(res) {
             console.log('You are sure');
-            $http.get("http://localhost:8888/buddy-meet/public/mobileDeleteFriend?user_1="+userId+"&user_2="+foreignId)
+            $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/mobileDeleteFriend?user_1="+userId+"&user_2="+foreignId)
             .success(function (response) {
               $scope.status = "Add Friend"
             })
@@ -342,13 +342,13 @@ angular.module('starter.controllers', [])
           });
           confirmPopup.then(function(res) {
           if(res) {
-            $http.get("http://localhost:8888/buddy-meet/public/mobileConfirmRequest?user_1="+userId+"&user_2="+foreignId)
+            $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/mobileConfirmRequest?user_1="+userId+"&user_2="+foreignId)
             .success(function (response) {
               $scope.status = "Friends"
               $scope.doRefreshForeign()
             })
           } else {
-            $http.get("http://localhost:8888/buddy-meet/public/mobileDeleteFriend?user_1="+userId+"&user_2="+foreignId)
+            $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/mobileDeleteFriend?user_1="+userId+"&user_2="+foreignId)
             .success(function (response) {
               $scope.status = "Add Friend"
             })
@@ -365,9 +365,9 @@ angular.module('starter.controllers', [])
     var userId = $rootScope.Lid
     var Lgender = $rootScope.Lgender
     var userName = $rootScope.LuserName
-    $scope.image = "http://localhost:8888/buddy-meet/public/images/Male.jpg"
+    $scope.image = "http://ahmedehabmasoud-001-site1.itempurl.com/public/images/Male.jpg"
     document.getElementById("profileCommentsOf"+postId).innerHTML = "<ion-item class=\"item-avatar-left item\"><img ng-src=\"{{image}}\"><b class=\"ng-binding\">"+userName+"</b><h2 style=\"white-space: normal;\" class=\"ng-binding\">"+commentBody+"</h2></ion-item>" + document.getElementById("profileCommentsOf"+postId).innerHTML
-      $http.get("http://localhost:8888/buddy-meet/public/mobileAddComment?id="+userId+"&postId="+postId+"&commentBody="+commentBody)
+      $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/mobileAddComment?id="+userId+"&postId="+postId+"&commentBody="+commentBody)
       .success(function (response) {
 
     })
@@ -379,7 +379,7 @@ angular.module('starter.controllers', [])
     comment.body = ""
     var userId = $rootScope.Lid
     console.log(foreignId)
-    $http.get("http://localhost:8888/buddy-meet/public/mobileForeignProfile?loggedInId="+userId+"&foreignId="+foreignId)
+    $http.get("http://ahmedehabmasoud-001-site1.itempurl.com/public/mobileForeignProfile?loggedInId="+userId+"&foreignId="+foreignId)
     .success(function (response) {
       //console.log(response)
       var posts = response.posts
